@@ -34,6 +34,9 @@ jobs:
 
           export IMAGE_TAG=${{ github.run_number }}
 
+          kubectl -n garion-final delete configmap garion-final-postgres-init || true
+          kubectl -n garion-final create configmap garion-final-postgres-init --from-file=init.sql
+
           for file in kube/*; do 
               echo "Applying $file"
               cat "$file" | envsubst | kubectl apply -f -; 

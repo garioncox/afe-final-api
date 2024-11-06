@@ -36,15 +36,14 @@ spec:
               port: 8080
             initialDelaySeconds: 15
             periodSeconds: 20
-          # volumeMounts:
-          # - name: storage
-          #   mountPath: /app/image
-          # - name: init-script
-          #   mountPath: /docker-entrypoint-initdb.d
-      # volumes:
-      # - name: storage
-      #   persistentVolumeClaim:
-      #     claimName: garion-final-api-pvc
-      # - name: init-script
-      #   configMap:
-      #     name: blazor-web-postgres-init
+          env:
+            - name: POSTGRES_HOST
+              value: "garion-final-db-service" # Point to PostgreSQL service
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_DB
+              value: "database" # Same as in PostgreSQL config
+            - name: POSTGRES_USER
+              value: "postgres" # Same as in PostgreSQL config
+            - name: POSTGRES_PASSWORD
+              value: "password" # Same as in PostgreSQL config
