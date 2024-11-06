@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: final-api-service
+  namespace: garion-final
+spec:
+  selector:
+    app: final-api-deployment
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+  type: ClusterIP
