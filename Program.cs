@@ -1,22 +1,23 @@
+using afe_final_api.Data;
+using afe_final_api.services;
+using dotenv.net;
+using Microsoft.EntityFrameworkCore;
+
+var envVars = DotEnv.Read();
+
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", builder =>
-    {
-        builder.AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader();
-    });
-});
-
 // Add services to the container.
+
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
+builder.Services.AddDbContext<PostgresContext>(o => o.UseNpgsql(envVars["db"]));
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 
-app.UseCors("AllowAll");
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -25,11 +26,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.MapGet("/health", () => "Hello World!");
 
-/// Routes ///
+app.UseHttpsRedirection();
 
-app.MapGet("/api/", () => "Hello World!");
+app.UseAuthorization();
 
-/// End Routes ///
+app.MapControllers();
 
 app.Run();

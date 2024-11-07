@@ -1,58 +1,102 @@
-CREATE TABLE customer (
-    id SERIAL PRIMARY KEY,
-    surname TEXT,
-    email TEXT UNIQUE NOT NULL
+-- DROP SCHEMA "afe-final";
+
+CREATE SCHEMA "afe-final";
+
+-- DROP SEQUENCE "afe-final".budget_id_seq;
+
+CREATE SEQUENCE "afe-final".budget_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE "afe-final".budget_transaction_event_id_seq;
+
+CREATE SEQUENCE "afe-final".budget_transaction_event_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE "afe-final".customer_id_seq;
+
+CREATE SEQUENCE "afe-final".customer_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE "afe-final".transaction_event_id_seq;
+
+CREATE SEQUENCE "afe-final".transaction_event_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;-- "afe-final".customer definition
+
+-- Drop table
+
+-- DROP TABLE "afe-final".customer;
+
+CREATE TABLE "afe-final".customer (
+	id serial4 NOT NULL,
+	surname text NULL,
+	email text NOT NULL,
+	CONSTRAINT customer_email_key UNIQUE (email),
+	CONSTRAINT customer_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE transaction_event (
-    id SERIAL PRIMARY KEY,
-    amt DECIMAL(10, 2),
-    transaction_date DATE NOT NULL,
-    transaction_name TEXT,
-    customer_id INTEGER,
-    FOREIGN KEY (customer_id) REFERENCES customer (id)
+
+-- "afe-final".budget definition
+
+-- Drop table
+
+-- DROP TABLE "afe-final".budget;
+
+CREATE TABLE "afe-final".budget (
+	id serial4 NOT NULL,
+	budget_name text NOT NULL,
+	subcategory_of int4 NULL,
+	customer_id int4 NOT NULL,
+	CONSTRAINT budget_pkey PRIMARY KEY (id),
+	CONSTRAINT budget_customer_id_fkey FOREIGN KEY (customer_id) REFERENCES "afe-final".customer(id),
+	CONSTRAINT budget_subcategory_of_fkey FOREIGN KEY (subcategory_of) REFERENCES "afe-final".budget(id)
 );
 
-CREATE TABLE budget (
-    id SERIAL PRIMARY KEY,
-    budget_name TEXT NOT NULL,
-    subcategory_of INTEGER,
-    customer_id INTEGER NOT NULL,
-    FOREIGN KEY (subcategory_of) REFERENCES budget (id),
-    FOREIGN KEY (customer_id) REFERENCES customer (id)
+
+-- "afe-final".transaction_event definition
+
+-- Drop table
+
+-- DROP TABLE "afe-final".transaction_event;
+
+CREATE TABLE "afe-final".transaction_event (
+	id serial4 NOT NULL,
+	amt numeric(10, 2) NULL,
+	transaction_date date NOT NULL,
+	transaction_name text NULL,
+	customer_id int4 NULL,
+	CONSTRAINT transaction_event_pkey PRIMARY KEY (id),
+	CONSTRAINT transaction_event_customer_id_fkey FOREIGN KEY (customer_id) REFERENCES "afe-final".customer(id)
 );
 
-CREATE TABLE budget_transaction_event (
-    id SERIAL PRIMARY KEY,
-    transaction_event_id INTEGER NOT NULL,
-    budget_id INTEGER NOT NULL,
-    FOREIGN KEY (transaction_event_id) REFERENCES transaction_event (id),
-    FOREIGN KEY (budget_id) REFERENCES budget (id)
+
+-- "afe-final".budget_transaction_event definition
+
+-- Drop table
+
+-- DROP TABLE "afe-final".budget_transaction_event;
+
+CREATE TABLE "afe-final".budget_transaction_event (
+	id serial4 NOT NULL,
+	transaction_event_id int4 NOT NULL,
+	budget_id int4 NOT NULL,
+	CONSTRAINT budget_transaction_event_pkey PRIMARY KEY (id),
+	CONSTRAINT budget_transaction_event_budget_id_fkey FOREIGN KEY (budget_id) REFERENCES "afe-final".budget(id),
+	CONSTRAINT budget_transaction_event_transaction_event_id_fkey FOREIGN KEY (transaction_event_id) REFERENCES "afe-final".transaction_event(id)
 );
-
-INSERT INTO customer (surname, email) VALUES
-('John Doe', 'john.doe@example.com'),
-('Mary Smith', 'mary.smith@example.com'),
-('Susan Bateman', 'sue.bateman@example.com'),
-('Nao Romero', 'nao.romero@example.com');
-
--- 1: 'Necessities'
--- 2: 'Entertainment'
--- 3: 'Food'
--- 4: 'Pokemon Cards'
-INSERT INTO budget (budget_name, subcategory_of, customer_id) VALUES
-('Necessities', NULL, 1),
-('Entertainment', NULL, 1),
-('Food', 1, 1),
-('Pokemon Cards', 2, 1);
-
--- 1: '151 ETB'
--- 2: 'Dr Pepper (6 Pack)'
-INSERT INTO transaction_event (transaction_name, amt, transaction_date, customer_id) VALUES
-('151 ETB', 50.00, '2024-03-12', 1),
-('Dr Pepper (6 Pack)', 7.25, '2024-03-13', 1);
-
-INSERT INTO budget_transaction_event (transaction_event_id, budget_id) VALUES
-(1, 4),  -- '151 ETB' goes into 'Pokemon Cards' (id 4)
-(1, 2),  -- '151 ETB' goes into 'Entertainment' (id 2)
-(2, 3);  -- 'Dr Pepper (6 Pack)' goes into 'Food' (id 3)

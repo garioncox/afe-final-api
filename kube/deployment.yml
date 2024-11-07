@@ -38,12 +38,12 @@ spec:
             periodSeconds: 20
           env:
             - name: POSTGRES_HOST
-              value: "garion-final-db-service" # Point to PostgreSQL service
+              value: "garion-final-db-service"
             - name: POSTGRES_PORT
               value: "5432"
             - name: POSTGRES_DB
-              value: "database" # Same as in PostgreSQL config
+              value: "database"
             - name: POSTGRES_USER
-              value: "postgres" # Same as in PostgreSQL config
+              value: "postgres"
             - name: POSTGRES_PASSWORD
-              value: "password" # Same as in PostgreSQL config
+              value: "password"
