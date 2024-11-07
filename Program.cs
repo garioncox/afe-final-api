@@ -26,7 +26,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapGet("/health", () => "Hello World!");
+app.MapGet("/api", () => "healthy");
 
 app.UseHttpsRedirection();
 
