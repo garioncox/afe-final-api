@@ -37,13 +37,16 @@ spec:
             initialDelaySeconds: 15
             periodSeconds: 20
           env:
-            - name: POSTGRES_HOST
-              value: "garion-final-db-service"
-            - name: POSTGRES_PORT
-              value: "5432"
-            - name: POSTGRES_DB
-              value: "database"
-            - name: POSTGRES_USER
-              value: "postgres"
-            - name: POSTGRES_PASSWORD
-              value: "password"
+            - name: db
+              value: "${DB}"
+          # env:
+          #   - name: POSTGRES_HOST
+          #     value: "garion-final-db-service"
+          #   - name: POSTGRES_PORT
+          #     value: "5432"
+          #   - name: POSTGRES_DB
+          #     value: "database"
+          #   - name: POSTGRES_USER
+          #     value: "postgres"
+          #   - name: POSTGRES_PASSWORD
+          #     value: "password"

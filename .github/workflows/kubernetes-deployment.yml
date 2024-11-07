@@ -33,6 +33,7 @@ jobs:
           export PATH=$PATH:~/.nix-profile/bin:/nix/var/nix/profiles/default/bin
 
           export IMAGE_TAG=${{ github.run_number }}
+          export DB="${{ secrets.DB }}"
 
           kubectl -n garion-final delete configmap garion-final-postgres-init || true
           kubectl -n garion-final create configmap garion-final-postgres-init --from-file=init.sql
