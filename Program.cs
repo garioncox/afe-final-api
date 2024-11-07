@@ -14,7 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<PostgresContext>(o => o.UseNpgsql(envVars["db"]));
+builder.Services.AddDbContext<PostgresContext>(o => o.UseNpgsql(Environment.GetEnvironmentVariable("db") ?? envVars["db"]));
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 var app = builder.Build();

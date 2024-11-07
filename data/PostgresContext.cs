@@ -27,7 +27,7 @@ public partial class PostgresContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         var envVars = DotEnv.Read();
-        optionsBuilder.UseNpgsql(envVars["db"]);
+        optionsBuilder.UseNpgsql(Environment.GetEnvironmentVariable("db") ?? envVars["db"]);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
