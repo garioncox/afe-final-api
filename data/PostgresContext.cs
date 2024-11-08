@@ -36,7 +36,7 @@ public partial class PostgresContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("budget_pkey");
 
-            entity.ToTable("budget", "afe-final");
+            entity.ToTable("budget");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.BudgetName).HasColumnName("budget_name");
@@ -57,7 +57,7 @@ public partial class PostgresContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("budget_transaction_event_pkey");
 
-            entity.ToTable("budget_transaction_event", "afe-final");
+            entity.ToTable("budget_transaction_event");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.BudgetId).HasColumnName("budget_id");
@@ -78,7 +78,7 @@ public partial class PostgresContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("customer_pkey");
 
-            entity.ToTable("customer", "afe-final");
+            entity.ToTable("customer");
 
             entity.HasIndex(e => e.Email, "customer_email_key").IsUnique();
 
@@ -91,7 +91,7 @@ public partial class PostgresContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("transaction_event_pkey");
 
-            entity.ToTable("transaction_event", "afe-final");
+            entity.ToTable("transaction_event");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Amt)
