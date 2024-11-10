@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using afe_final_api.Data;
 using afe_final_api.services;
 using dotenv.net;
@@ -9,13 +10,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddDbContext<PostgresContext>(o => o.UseNpgsql(Environment.GetEnvironmentVariable("db") ?? envVars["db"]));
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IBudgetService, BudgetService>();
+builder.Services.AddScoped<ITransactionEventService, TransactionEventService>();
+
 
 var app = builder.Build();
 
