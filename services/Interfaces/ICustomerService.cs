@@ -4,5 +4,6 @@ namespace afe_final_api.services;
 
 public interface ICustomerService
 {
-    Task<List<Customer>> GetAllCustomers();
+    Task<List<Customer>> GetAllCustomersAsync();
+    Task<Customer?> GetCustomerByEmailAsync(string email);
 }

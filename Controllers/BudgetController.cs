@@ -17,8 +17,14 @@ public class BudgetController : ControllerBase
 
 
     [HttpGet("getAll")]
-    public async Task<List<Budget>> GetBudgetsAsync()
+    public async Task<List<Budget>> GetAllBudgetsAsync()
     {
-        return await _budgetService.GetAllBudgets();
+        return await _budgetService.GetAllBudgetsAsync();
+    }
+
+    [HttpGet("get/{id}")]
+    public async Task<List<Budget>> GetBudgetsByCustomerAsync(int id)
+    {
+        return await _budgetService.GetBudgetsByCustomerAsync(id);
     }
 }

@@ -17,8 +17,16 @@ public class CustomerController : ControllerBase
 
 
     [HttpGet("getAll")]
-    public async Task<List<Customer>> GetEmployeeListAsync()
+    public async Task<List<Customer>> GetAllCustomersAsync()
     {
-        return await _customerService.GetAllCustomers();
+        return await _customerService.GetAllCustomersAsync();
+    }
+
+    [HttpGet("get/{email}")]
+    public async Task<ActionResult<Customer>> GetCustomerByEmail(string email)
+    {
+        var customer = await _customerService.GetCustomerByEmailAsync(email);
+        if (customer == null) { return NotFound(); }
+        return Ok(customer);
     }
 }

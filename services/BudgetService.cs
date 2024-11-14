@@ -10,8 +10,16 @@ public class BudgetService : IBudgetService
     {
         _context = context;
     }
-    public async Task<List<Budget>> GetAllBudgets()
+
+    public async Task<List<Budget>> GetAllBudgetsAsync()
     {
         return await _context.Budgets.ToListAsync();
+    }
+
+    public async Task<List<Budget>> GetBudgetsByCustomerAsync(int id)
+    {
+        return await _context.Budgets
+            .Where(b => b.CustomerId == id)
+            .ToListAsync();
     }
 }

@@ -10,8 +10,17 @@ public class CustomerService : ICustomerService
     {
         _context = context;
     }
-    public async Task<List<Customer>> GetAllCustomers()
+
+
+    public async Task<List<Customer>> GetAllCustomersAsync()
     {
         return await _context.Customers.ToListAsync();
+    }
+
+    public async Task<Customer?> GetCustomerByEmailAsync(string email)
+    {
+        return await _context.Customers
+            .Where(c => c.Email == email)
+            .FirstOrDefaultAsync();
     }
 }
