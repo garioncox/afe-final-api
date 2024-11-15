@@ -15,7 +15,6 @@ public class BudgetController : ControllerBase
         _budgetService = service;
     }
 
-
     [HttpGet("getAll")]
     public async Task<List<Budget>> GetAllBudgetsAsync()
     {
