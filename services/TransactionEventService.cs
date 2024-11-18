@@ -10,8 +10,14 @@ public class TransactionEventService : ITransactionEventService
     {
         _context = context;
     }
+
     public async Task<List<TransactionEvent>> GetAllTransactionEvents()
     {
         return await _context.TransactionEvents.ToListAsync();
+    }
+    
+    public async Task AddTransactionEvent(TransactionEvent transactionEvent) {
+        _context.TransactionEvents.Add(transactionEvent);
+        await _context.SaveChangesAsync();
     }
 }

@@ -15,10 +15,16 @@ public class TransactionEventController : ControllerBase
         _transactionEventService = service;
     }
 
-
     [HttpGet("getAll")]
     public async Task<List<TransactionEvent>> GetTransactionsAsync()
     {
         return await _transactionEventService.GetAllTransactionEvents();
+    }
+
+    [HttpPost("add")]
+    public async Task<int> AddTransactionEvent(TransactionEvent transactionEvent)
+    {
+        await _transactionEventService.AddTransactionEvent(transactionEvent);
+        return transactionEvent.Id;
     }
 }
