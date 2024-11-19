@@ -1,3 +1,4 @@
+using afe_final_api.data.DTO;
 using afe_final_api.Data;
 using afe_final_api.services;
 using Microsoft.AspNetCore.Mvc;
@@ -16,8 +17,14 @@ public class BudgetTransactionEventController : ControllerBase
     }
 
     [HttpPost("add")]
-    public async Task AddTransactionEvent(BudgetTransactionEvent bte)
+    public async Task AddBudgetTransactionEvent([FromBody] BudgetTransactionEventDTO dto)
     {
+        BudgetTransactionEvent bte = new()
+        {
+            TransactionEventId = dto.transactionEventId,
+            BudgetId = dto.budgetId,
+        };
+
         await _budgetTransactionEventService.AddBudgetTransactionEvent(bte);
     }
 }

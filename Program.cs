@@ -19,6 +19,7 @@ builder.Services.AddDbContext<PostgresContext>(o => o.UseNpgsql(Environment.GetE
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IBudgetService, BudgetService>();
 builder.Services.AddScoped<ITransactionEventService, TransactionEventService>();
+builder.Services.AddScoped<IBudgetTransactionEventService, BudgetTransactionEventService>();
 
 
 var app = builder.Build();

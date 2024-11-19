@@ -9,7 +9,7 @@ public partial class TransactionEvent
 
     public decimal? Amt { get; set; }
 
-    public DateOnly TransactionDate { get; set; }
+    public string TransactionDate { get; set; } = null!;
 
     public string? TransactionName { get; set; }
 

@@ -7,7 +7,7 @@ CREATE TABLE customer (
 CREATE TABLE transaction_event (
     id SERIAL PRIMARY KEY,
     amt DECIMAL(10, 2),
-    transaction_date DATE NOT NULL,
+    transaction_date TEXT NOT NULL,
     transaction_name TEXT,
     customer_id INTEGER,
     FOREIGN KEY (customer_id) REFERENCES customer (id)

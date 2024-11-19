@@ -1,3 +1,4 @@
+using afe_final_api.data.DTO;
 using afe_final_api.Data;
 using afe_final_api.services;
 using Microsoft.AspNetCore.Mvc;
@@ -22,8 +23,16 @@ public class TransactionEventController : ControllerBase
     }
 
     [HttpPost("add")]
-    public async Task<int> AddTransactionEvent(TransactionEvent transactionEvent)
+    public async Task<int> AddTransactionEvent([FromBody] TransactionEventDTO dto)
     {
+        TransactionEvent transactionEvent = new()
+        {
+            Amt = dto.amt,
+            TransactionDate = dto.transactionDate,
+            TransactionName = dto.transactionName,
+            CustomerId = dto.customerId,
+        };
+
         await _transactionEventService.AddTransactionEvent(transactionEvent);
         return transactionEvent.Id;
     }
