@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   namespace: garion-final
-  name: garion-final-db-pvc
+  name: garion-final-db-pvc-2
 spec:
   accessModes:
     - ReadWriteOnce
@@ -45,7 +45,7 @@ spec:
       volumes:
         - name: db-storage
           persistentVolumeClaim:
-            claimName: garion-final-db-pvc
+            claimName: garion-final-db-pvc-2
         - name: init-sql
           configMap:
             name: garion-final-postgres-init
