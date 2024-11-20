@@ -11,7 +11,6 @@ var envVars = DotEnv.Read();
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
 {
@@ -31,7 +30,6 @@ builder.Services.AddScoped<IBudgetService, BudgetService>();
 builder.Services.AddScoped<ITransactionEventService, TransactionEventService>();
 builder.Services.AddScoped<IBudgetTransactionEventService, BudgetTransactionEventService>();
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -41,15 +39,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
+app.UseAuthorization();
+app.UseCors(
+    p => p
+     .AllowAnyHeader()
+     .AllowAnyMethod()
+     .AllowAnyOrigin());
+
 app.MapGet("/api", () => "healthy");
-
-
-app.MapGet("/authOnly", (HttpRequest request, ClaimsPrincipal user) =>
+app.MapGet("/authOnly", (ClaimsPrincipal user) =>
 {
-    var id_token = request.Headers["Authorization"].ToString().Replace("Bearer ", "").Trim();
-
-    // Console.WriteLine("In Auth Endpoint, using key " + id_token);
-
     if (user.Identity?.IsAuthenticated == true)
     {
         Console.WriteLine($"Authenticated user: {user.Identity.Name}");
@@ -64,16 +64,6 @@ app.MapGet("/authOnly", (HttpRequest request, ClaimsPrincipal user) =>
 });
 
 app.UseHttpsRedirection();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
 app.MapControllers();
-
-app.UseCors(
-    p => p
-     .AllowAnyHeader()
-     .AllowAnyMethod()
-     .AllowAnyOrigin());
 
 app.Run();
