@@ -5,6 +5,7 @@ using afe_final_api.services;
 using dotenv.net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var envVars = DotEnv.Read();
 
@@ -14,8 +15,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
 {
-    options.Audience = "garion-auth-class";
-    options.Authority = "https://auth.snowse.duckdns.org/realms/advanced-frontend/protocol/openid-connect/certs";
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidIssuer = "https://auth.snowse.duckdns.org/realms/advanced-frontend/",
+        ValidAudience = "garion-auth-class"
+    };
+    options.Authority = "https://auth.snowse.duckdns.org/realms/advanced-frontend/";
 });
 builder.Services.AddAuthorization();
 
@@ -40,7 +48,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthentication();
-app.UseAuthorization();
 app.UseCors(
     p => p
      .AllowAnyHeader()
@@ -52,12 +59,9 @@ app.MapGet("/authOnly", (ClaimsPrincipal user) =>
 {
     if (user.Identity?.IsAuthenticated == true)
     {
-        Console.WriteLine($"Authenticated user: {user.Identity.Name}");
-        return $"Authenticated user: {user.Identity.Name}";
+        Console.WriteLine($"Authenticated user: {user?.FindFirst(ClaimTypes.Email)?.Value}");
+        return $"Authenticated user: {user?.FindFirst(ClaimTypes.Email)?.Value}";
     }
-
-    Console.WriteLine("IsAuthenticated: " + user.Identity?.IsAuthenticated);
-    Console.WriteLine("Claims: " + string.Join(", ", user.Claims.Select(c => c.Type + ": " + c.Value)));
 
     Console.WriteLine("User not authenticated");
     return "User not authenticated";
