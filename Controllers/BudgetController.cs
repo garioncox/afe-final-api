@@ -21,6 +21,16 @@ public class BudgetController : ControllerBase
         return await _budgetService.GetAllBudgetsAsync();
     }
 
+    [HttpGet("getAllAuth")]
+    public async Task<List<Budget>> GetAllBudgetsAuthAsync()
+    {
+        if (User.Identity?.IsAuthenticated == true)
+        {
+            return await _budgetService.GetAllBudgetsAsync();
+        }
+        return [];
+    }
+
     [HttpGet("get/{id}")]
     public async Task<List<Budget>> GetBudgetsByCustomerAsync(int id)
     {
