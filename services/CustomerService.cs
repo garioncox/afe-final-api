@@ -10,7 +10,12 @@ public class CustomerService : ICustomerService
     {
         _context = context;
     }
-
+    
+    public async Task AddCustomerAsync(Customer customer)
+    {
+        _context.Customers.Add(customer);
+        await _context.SaveChangesAsync();
+    }
 
     public async Task<List<Customer>> GetAllCustomersAsync()
     {

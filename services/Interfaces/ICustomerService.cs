@@ -6,4 +6,5 @@ public interface ICustomerService
 {
     Task<List<Customer>> GetAllCustomersAsync();
     Task<Customer?> GetCustomerByEmailAsync(string email);
+    Task AddCustomerAsync(Customer customer);
 }

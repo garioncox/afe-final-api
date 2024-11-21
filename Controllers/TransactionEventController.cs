@@ -22,6 +22,12 @@ public class TransactionEventController : ControllerBase
         return await _transactionEventService.GetAllTransactionEvents();
     }
 
+    [HttpGet("get/{email}")]
+    public async Task<List<TransactionEvent>> GetTransactionsByEmailAsync(string email)
+    {
+        return await _transactionEventService.GetTransactionsByEmailAsync(email);
+    }
+
     [HttpPost("add")]
     public async Task<int> AddTransactionEvent([FromBody] TransactionEventDTO dto)
     {

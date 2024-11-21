@@ -29,4 +29,16 @@ public class CustomerController : ControllerBase
         if (customer == null) { return NotFound(); }
         return Ok(customer);
     }
+
+    [HttpPost("add")]
+    public async Task AddCustomer(CustomerDTO dto)
+    {
+        Customer customer = new()
+        {
+            Surname = dto.name,
+            Email = dto.email
+        };
+
+        await _customerService.AddCustomerAsync(customer);
+    }
 }

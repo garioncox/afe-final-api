@@ -15,9 +15,18 @@ public class TransactionEventService : ITransactionEventService
     {
         return await _context.TransactionEvents.ToListAsync();
     }
-    
-    public async Task AddTransactionEvent(TransactionEvent transactionEvent) {
+
+    public async Task AddTransactionEvent(TransactionEvent transactionEvent)
+    {
         _context.TransactionEvents.Add(transactionEvent);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<List<TransactionEvent>> GetTransactionsByEmailAsync(string email)
+    {
+        return await _context.TransactionEvents
+            .Include(t => t.Customer)
+            .Where(t => t.Customer!.Email == email)
+            .ToListAsync();
     }
 }
