@@ -1,3 +1,4 @@
+using afe_final_api.data.DTO;
 using afe_final_api.Data;
 using afe_final_api.services;
 using Microsoft.AspNetCore.Mvc;
@@ -35,5 +36,17 @@ public class BudgetController : ControllerBase
     public async Task<List<Budget>> GetBudgetsByCustomerAsync(int id)
     {
         return await _budgetService.GetBudgetsByCustomerAsync(id);
+    }
+
+    [HttpGet("add")]
+    public async Task AddBudgetAsync(BudgetDTO dto)
+    {
+        Budget budget = new()
+        {
+            BudgetName = dto.BudgetName,
+            CustomerId = dto.CustomerId
+        };
+
+        await _budgetService.AddBudgetAsync(budget);
     }
 }

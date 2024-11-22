@@ -11,6 +11,12 @@ public class BudgetService : IBudgetService
         _context = context;
     }
 
+    public async Task AddBudgetAsync(Budget budget)
+    {
+        _context.Budgets.Add(budget);
+        await _context.SaveChangesAsync();
+    }
+
     public async Task<List<Budget>> GetAllBudgetsAsync()
     {
         return await _context.Budgets.ToListAsync();
