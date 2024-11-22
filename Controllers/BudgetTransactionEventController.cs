@@ -27,4 +27,9 @@ public class BudgetTransactionEventController : ControllerBase
 
         await _budgetTransactionEventService.AddBudgetTransactionEvent(bte);
     }
+
+    [HttpGet("get/{customerId}")]
+    public async Task<List<BudgetTransactionEvent>> GetAllBudgetTransactionEventForCustomer(int customerId) {
+        return await _budgetTransactionEventService.GetAllBudgetTransactionEventForCustomer(customerId);
+    }
 }
