@@ -38,7 +38,7 @@ public class BudgetController : ControllerBase
         return await _budgetService.GetBudgetsByCustomerAsync(id);
     }
 
-    [HttpGet("add")]
+    [HttpPost("add")]
     public async Task AddBudgetAsync(BudgetDTO dto)
     {
         Budget budget = new()
