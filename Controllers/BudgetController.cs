@@ -43,8 +43,8 @@ public class BudgetController : ControllerBase
     {
         Budget budget = new()
         {
-            BudgetName = dto.BudgetName,
-            CustomerId = dto.CustomerId
+            BudgetName = dto.budgetName,
+            CustomerId = dto.customerId
         };
 
         await _budgetService.AddBudgetAsync(budget);
