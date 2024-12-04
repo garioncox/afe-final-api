@@ -49,4 +49,22 @@ public class BudgetController : ControllerBase
 
         await _budgetService.AddBudgetAsync(budget);
     }
+
+    [HttpPut("edit")]
+    public async Task EditBudgetAsync(BudgetDTO dto)
+    {
+        if (dto.id == null)
+        {
+            return;
+        }
+
+        Budget budget = new()
+        {
+            Id = dto.id.Value,
+            BudgetName = dto.budgetName,
+            CustomerId = dto.customerId
+        };
+
+        await _budgetService.EditBudgetAsync(budget);
+    }
 }

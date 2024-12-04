@@ -7,4 +7,5 @@ public interface IBudgetService
     Task<List<Budget>> GetAllBudgetsAsync();
     Task<List<Budget>> GetBudgetsByCustomerAsync(int id);
     Task AddBudgetAsync(Budget budget);
+    Task EditBudgetAsync(Budget budget);
 }
