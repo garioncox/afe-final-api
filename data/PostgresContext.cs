@@ -29,14 +29,13 @@ public partial class PostgresContext : DbContext
         var envVars = DotEnv.Read();
         optionsBuilder.UseNpgsql(Environment.GetEnvironmentVariable("db") ?? envVars["db"]);
     }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Budget>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("budget_pkey");
 
-            entity.ToTable("budget");
+            entity.ToTable("budget", "wallet_wise");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.BudgetName).HasColumnName("budget_name");
@@ -57,7 +56,7 @@ public partial class PostgresContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("budget_transaction_event_pkey");
 
-            entity.ToTable("budget_transaction_event");
+            entity.ToTable("budget_transaction_event", "wallet_wise");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.BudgetId).HasColumnName("budget_id");
@@ -78,7 +77,7 @@ public partial class PostgresContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("customer_pkey");
 
-            entity.ToTable("customer");
+            entity.ToTable("customer", "wallet_wise");
 
             entity.HasIndex(e => e.Email, "customer_email_key").IsUnique();
 
@@ -91,7 +90,7 @@ public partial class PostgresContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("transaction_event_pkey");
 
-            entity.ToTable("transaction_event");
+            entity.ToTable("transaction_event", "wallet_wise");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Amt)
