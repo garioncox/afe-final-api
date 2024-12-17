@@ -23,7 +23,7 @@ jobs:
 
       - name: Export const
         run: |
-          OUT=/home/test/final-api-runner/_work/out
+          OUT=/home/garion/final-api-runner/_work/out
           echo "OUT=$OUT" >> $GITHUB_ENV
 
       - name: Build with dotnet
