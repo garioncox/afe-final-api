@@ -12,20 +12,20 @@ var envVars = DotEnv.Read();
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidIssuer = "https://auth.snowse.duckdns.org/realms/advanced-frontend/",
-        ValidAudience = "garion-auth-class"
-    };
-    options.Authority = "https://auth.snowse.duckdns.org/realms/advanced-frontend/";
-});
-builder.Services.AddAuthorization();
+// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+// .AddJwtBearer(options =>
+// {
+//     options.TokenValidationParameters = new TokenValidationParameters
+//     {
+//         ValidateIssuer = true,
+//         ValidateAudience = true,
+//         ValidateLifetime = true,
+//         ValidIssuer = "https://auth.snowse.duckdns.org/realms/advanced-frontend/",
+//         ValidAudience = "garion-auth-class"
+//     };
+//     options.Authority = "https://auth.snowse.duckdns.org/realms/advanced-frontend/";
+// });
+// builder.Services.AddAuthorization();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -54,7 +54,7 @@ app.UseCors(
      .AllowAnyMethod()
      .AllowAnyOrigin());
 
-app.MapGet("/api", () => "healthy");
+app.MapGet("/api", () => $"healthy: {Environment.GetEnvironmentVariable("db") ?? envVars["db"]}" );
 app.MapGet("/authOnly", (ClaimsPrincipal user) =>
 {
     if (user.Identity?.IsAuthenticated == true)
