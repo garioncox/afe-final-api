@@ -54,7 +54,7 @@ app.UseCors(
      .AllowAnyMethod()
      .AllowAnyOrigin());
 
-app.MapGet("/api", () => $"healthy: {Environment.GetEnvironmentVariable("db") ?? envVars["db"]}" );
+app.MapGet("/api", () => "healthy");
 app.MapGet("/authOnly", (ClaimsPrincipal user) =>
 {
     if (user.Identity?.IsAuthenticated == true)
